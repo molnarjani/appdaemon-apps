@@ -1,0 +1,4 @@
+alarm:
+  module: alarm
+  class: AlarmService
+  alarm_time: input_text.alarm_start
