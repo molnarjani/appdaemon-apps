@@ -57,6 +57,7 @@ class AlarmService(hass.Hass):
 
     def check_time(self, entity, attribute, old, new, kwargs):
         current_time = parse(new)
+        self.log('Current time: {}'.format(current_time.time()))
 
         if self.alarm_start is not None and self.alarm_start.time() <= current_time.time() <= self.wakeup_time.time():
             self.log('Starting wake up')
