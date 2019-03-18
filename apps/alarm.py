@@ -26,7 +26,7 @@ class AlarmService(hass.Hass):
 
         self.alarm_start = None
         self.wakeup_time = None
-        self.listen_state(self.set_alarm, self.args['alarm_start'])
+        self.listen_state(self.set_alarm, self.args['wakeup_time'])
 
     def set_alarm(self, entity, attribute, old, new, kwargs):
         if self.wakeup_time is not None:
