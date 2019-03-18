@@ -32,7 +32,7 @@ class AlarmService(hass.Hass):
         self.log("Started Alarm service")
         self.listen_state(self.check_time, "sensor.time")
 
-        self.alarm_minutes = 30
+        self.alarm_minutes = 45
         self.alarm_on_minutes = 0
 
         self.current_brightness = 0
