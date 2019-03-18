@@ -9,13 +9,14 @@ import appdaemon.plugins.hass.hassapi as hass
 #
 from dateutil.parser import parse
 from dateutil.relativedelta import relativedelta
+from datetime import datetime
 
 class AlarmService(hass.Hass):
 
     def initialize(self):
 
         self.log("Started Alarm service")
-        self.listen_state(self.check_time, "sensor.time")
+        self.run_every(self.check_time, 1, datetime.now())
 
         self.alarm_minutes = 30
         self.alarm_on_minutes = 0
