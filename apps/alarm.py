@@ -7,8 +7,23 @@ import appdaemon.plugins.hass.hassapi as hass
 #   - alarm_time: time you want to wake up at
 #   - light_id: light to trigger
 #
+import json
+
 from dateutil.parser import parse
 from dateutil.relativedelta import relativedelta
+
+class MusicService(object):
+    """
+    In [88]: import requests
+    ...:
+    ...: headers = {
+        ...:     'Content-Type': 'application/json',
+                                 ...: }
+    ...:
+    ...: data = '{"jsonrpc": "2.0", "id": 1, "method": "core.mixer.get_volume"}'
+    ...:
+    ...: response = requests.post('http://127.0.0.1:6680/mopidy/rpc', headers=headers, data=data)
+    """
 
 class AlarmService(hass.Hass):
 
