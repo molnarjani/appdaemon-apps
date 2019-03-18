@@ -34,8 +34,7 @@ class AlarmService(hass.Hass):
         except ValueError:
             self.log('Alarm time is invalid!')
 
-    def check_time(self, entity, attribute, old, new, kwargs):
-        print(self, entity, attribute, old, new, kwargs)
+    def check_time(self, new):
 
         current_time = parse(new)
 
