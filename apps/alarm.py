@@ -9,14 +9,13 @@ import appdaemon.plugins.hass.hassapi as hass
 #
 from dateutil.parser import parse
 from dateutil.relativedelta import relativedelta
-from datetime import datetime
 
 class AlarmService(hass.Hass):
 
     def initialize(self):
 
         self.log("Started Alarm service")
-        self.run_every(self.check_time, datetime.now(), 1)
+        self.listen_state(self.check_time, "sensor.time")
 
         self.alarm_minutes = 30
         self.alarm_on_minutes = 0
@@ -34,15 +33,14 @@ class AlarmService(hass.Hass):
         except ValueError:
             self.log('Alarm time is invalid!')
 
-    def check_time(self, new):
-        print(new)
-        # current_time = parse(new)
-        #
-        # self.log('{} {} {}'.format(current_time, self.alarm_start, self.wakeup_time))
-        # if self.alarm_start is not None and current_time >= self.alarm_start:
-        #     self.log('Starting wake up')
-        #     self.start_alarm()
-        #     self.current_brightness += self.brightness_step
+    def check_time(self, entity, attribute, old, new, kwargs):
+        current_time = parse(new)
+
+        self.log('{} {} {}'.format(current_time, self.alarm_start, self.wakeup_time))
+        if self.alarm_start is not None and current_time >= self.alarm_start:
+            self.log('Starting wake up')
+            self.start_alarm()
+            self.current_brightness += self.brightness_step
 
     def start_alarm(self):
         self.turn_on('light.jani_s_room', brightness=self.current_brightness, color_temp=1)
