@@ -51,14 +51,14 @@ class AlarmService(hass.Hass):
         try:
             self.wakeup_time = parse(new)
             self.alarm_start = self.wakeup_time - relativedelta(minutes=self.alarm_minutes)
-            self.log('Alarm starting at {} so you wake up at {}'.format(self.alarm_start, self.wakeup_time))
+            self.log('Alarm starting at {} so you wake up at {}'.format(self.alarm_start.time(), self.wakeup_time.time()))
         except ValueError:
             self.log('Alarm time is invalid!')
 
     def check_time(self, entity, attribute, old, new, kwargs):
         current_time = parse(new)
 
-        if self.alarm_start is not None and self.alarm_start <= current_time <= self.wakeup_time:
+        if self.alarm_start is not None and self.alarm_start.time() <= current_time.time() <= self.wakeup_time.time():
             self.log('Starting wake up')
             self.start_alarm()
             self.current_brightness += self.brightness_step
