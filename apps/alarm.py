@@ -43,11 +43,12 @@ class AlarmService(hass.Hass):
     def check_time(self, entity, attribute, old, new, kwargs):
         current_time = parse(new)
 
-        self.log('{} {} {}'.format(current_time, self.alarm_start, self.wakeup_time))
-        if self.alarm_start is not None and current_time >= self.alarm_start:
+        if self.alarm_start is not None and self.alarm_start <= current_time <= self.wakeup_time:
             self.log('Starting wake up')
             self.start_alarm()
             self.current_brightness += self.brightness_step
+        else:
+            self.log('Current time: {}, Alarm Start: {}, Wakeup Time: {}'.format(current_time, self.alarm_start, self.wakeup_time))
 
     def start_alarm(self):
         self.turn_on('light.jani_s_room', brightness=self.current_brightness, color_temp=1)
