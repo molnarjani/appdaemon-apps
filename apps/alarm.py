@@ -35,14 +35,14 @@ class AlarmService(hass.Hass):
             self.log('Alarm time is invalid!')
 
     def check_time(self, new):
-
-        current_time = parse(new)
-
-        self.log('{} {} {}'.format(current_time, self.alarm_start, self.wakeup_time))
-        if self.alarm_start is not None and current_time >= self.alarm_start:
-            self.log('Starting wake up')
-            self.start_alarm()
-            self.current_brightness += self.brightness_step
+        print(new)
+        # current_time = parse(new)
+        #
+        # self.log('{} {} {}'.format(current_time, self.alarm_start, self.wakeup_time))
+        # if self.alarm_start is not None and current_time >= self.alarm_start:
+        #     self.log('Starting wake up')
+        #     self.start_alarm()
+        #     self.current_brightness += self.brightness_step
 
     def start_alarm(self):
         self.turn_on('light.jani_s_room', brightness=self.current_brightness, color_temp=1)
