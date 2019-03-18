@@ -47,8 +47,6 @@ class AlarmService(hass.Hass):
             self.log('Starting wake up')
             self.start_alarm()
             self.current_brightness += self.brightness_step
-        else:
-            self.log('Current time: {}, Alarm Start: {}, Wakeup Time: {}'.format(current_time, self.alarm_start, self.wakeup_time))
 
     def start_alarm(self):
         self.turn_on('light.jani_s_room', brightness=self.current_brightness, color_temp=1)
