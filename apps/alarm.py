@@ -30,10 +30,11 @@ class AlarmService(hass.Hass):
 
     def set_alarm(self, entity, attribute, old, new, kwargs):
         if self.wakeup_time is not None:
-            self.wakeup_time = parse(new)
-            self.alarm_start = self.wakeup_time - relativedelta(minutes=self.alarm_minutes)
-        except ValueError:
-            self.log('Alarm time is invalid!')
+            try:
+                self.wakeup_time = parse(new)
+                self.alarm_start = self.wakeup_time - relativedelta(minutes=self.alarm_minutes)
+            except ValueError:
+                self.log('Alarm time is invalid!')
 
     def check_time(self, entity, attribute, old, new, kwargs):
         current_time = parse(new)
