@@ -26,7 +26,8 @@ class AlarmService(hass.Hass):
 
         wakeup_time_input = self.args['wakeup_time']
         current_wakeup_time = self.get_state(wakeup_time_input)
-        self.set_state(wakeup_time_input, state=current_wakeup_time)
+        self.set_alarm(wakeup_time_input, 'value', None, current_wakeup_time, {})
+
         self.listen_state(self.set_alarm, self.args['wakeup_time'])
 
     def set_alarm(self, entity, attribute, old, new, kwargs):
