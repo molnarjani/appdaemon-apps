@@ -24,6 +24,7 @@ class AlarmService(hass.Hass):
         self.target_brightness = 255
         self.brightness_step = 255 / float(self.alarm_minutes)
 
+        self.log(self.args['wakeup_time'])
         self.listen_state(self.set_alarm, self.args['wakeup_time'])
 
     def set_alarm(self, entity, attribute, old, new, kwargs):
