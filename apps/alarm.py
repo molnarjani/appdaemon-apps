@@ -33,6 +33,7 @@ class AlarmService(hass.Hass):
         try:
             self.wakeup_time = parse(new)
             self.alarm_start = self.wakeup_time - relativedelta(minutes=self.alarm_minutes)
+            self.log('Alarm starting at {} so you wake up at {}'.format(self.alarm_start, self.wakeup_time))
         except ValueError:
             self.log('Alarm time is invalid!')
 
