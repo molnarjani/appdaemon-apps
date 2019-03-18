@@ -24,10 +24,12 @@ class AlarmService(hass.Hass):
         self.target_brightness = 255
         self.brightness_step = 255 / float(self.alarm_minutes)
 
+        self.alarm_start = None
+        self.wakeup_time = None
         self.listen_state(self.set_alarm, self.args['wakeup_time'])
 
     def set_alarm(self, entity, attribute, old, new, kwargs):
-        try:
+        if self.wakeup_time is not None:
             self.wakeup_time = parse(new)
             self.alarm_start = self.wakeup_time - relativedelta(minutes=self.alarm_minutes)
         except ValueError:
@@ -36,7 +38,7 @@ class AlarmService(hass.Hass):
     def check_time(self, entity, attribute, old, new, kwargs):
         current_time = parse(new)
 
-        if self.alarm_start and current_time >= self.alarm_start:
+        if self.alarm_start is not None and current_time >= self.alarm_start:
             self.log('Starting wake up')
             self.start_alarm()
             self.current_brightness += self.brightness_step
