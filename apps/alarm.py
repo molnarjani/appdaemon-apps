@@ -16,7 +16,7 @@ class AlarmService(hass.Hass):
     def initialize(self):
 
         self.log("Started Alarm service")
-        self.run_every(self.check_time, 1, datetime.now())
+        self.run_every(self.check_time, datetime.now(), 1)
 
         self.alarm_minutes = 30
         self.alarm_on_minutes = 0
