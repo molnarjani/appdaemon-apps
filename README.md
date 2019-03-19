@@ -1,12 +1,12 @@
-# [AppDaemon]("https://www.home-assistant.io/docs/ecosystem/appdaemon/") apps for home automations
+# [AppDaemon](https://www.home-assistant.io/docs/ecosystem/appdaemon/) apps for home automations
 
 ### Components:
   * **alarm.py**:
-    * Wakes me up at alarm time fetched from [HA]("https://www.home-assistant.io/") user interface
+    * Wakes me up at alarm time fetched from [HA](https://www.home-assistant.io/) user interface
     * Incrementally increases light brightness and music volume
  
   * **music_client.py**:
-    * Controls the [mopidy]("https://www.mopidy.com/") MPD server via jsonrpc
+    * Controls the [mopidy](https://www.mopidy.com/) MPD server via jsonrpc
     * Used by alarm.py to modify volume and start playing music
     
 ## TODO:
