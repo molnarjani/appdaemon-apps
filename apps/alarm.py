@@ -7,10 +7,10 @@ import appdaemon.plugins.hass.hassapi as hass
 import json
 import requests
 
+from math import ceil
 from dateutil.parser import parse
 from dateutil.relativedelta import relativedelta
-
-
+from music_client import MusicClient
 
 
 class AlarmService(hass.Hass):
@@ -18,14 +18,17 @@ class AlarmService(hass.Hass):
     def initialize(self):
 
         self.log("Started Alarm service")
+        self.music_client = MusicClient('http://127.0.0.1:6680/mopidy/rpc')
         self.listen_state(self.check_time, "sensor.time")
 
-        self.alarm_minutes = 45
-        self.alarm_on_minutes = 0
+        self.alarm_minutes = 5 # TODO: change back to 45 or something
 
+        self.current_volume = 0
         self.current_brightness = 0
         self.target_brightness = 255
+
         self.brightness_step = 255 / float(self.alarm_minutes)
+        self.volume_step = ceil(30 / float(self.alarm_minutes))
 
         wakeup_time_input = self.args['wakeup_time']
         current_wakeup_time = self.get_state(wakeup_time_input)
@@ -51,6 +54,11 @@ class AlarmService(hass.Hass):
             self.log('Starting wake up')
             self.start_alarm()
             self.current_brightness += self.brightness_step
+            self.current_volume += self.volume_step
 
     def start_alarm(self):
+        if not self.music_client.is_playing:
+            self.music_client.start()
+
+        self.music_client.set_volume(self.current_volume)
         self.turn_on('light.jani_s_room', brightness=self.current_brightness, color_temp=1)
