@@ -16,7 +16,7 @@ class MusicClient(object):
     def _send_command(self):
         self.data = {"jsonrpc": "2.0", "id": 1, "method": self.method, "params": self.params}
         print(self.data)
-        response = requests.post(self.url, headers=self.headers, data=self.data)
+        response = requests.post(self.url, headers=self.headers, data=json.dumps(self.data))
         return response.json()
 
     def start(self):
@@ -30,4 +30,9 @@ class MusicClient(object):
     def get_volume(self):
         self.method = 'core.mixer.get_volume'
         response = self._send_command()
-        return response
+        return response['result']
+
+    def set_volume(self, volume):
+        self.method = 'core.mixer.get_volume'
+        self.params = {'volume': volume}
+        return self._send_command()
