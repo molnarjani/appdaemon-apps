@@ -19,10 +19,10 @@ class AlarmService(hass.Hass):
         self.music_client = MusicClient('http://127.0.0.1:6680/mopidy/rpc')
         self.listen_state(self.check_time, "sensor.time")
 
-        self.alarm_minutes = 5
+        self.alarm_minutes = 45
 
         self.current_volume = 5
-        self.current_brightness = 0
+        self.current_brightness = 1
         self.target_brightness = 255
         self.target_volume = 45
 
