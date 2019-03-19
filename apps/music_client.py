@@ -3,7 +3,7 @@ import requests
 
 
 class MusicClient(object):
-    """ Controls MPD service via jsonrpc """
+    """ Controls mopidy MPD server via jsonrpc """
 
     def __init__(self, url):
         self.url = url
