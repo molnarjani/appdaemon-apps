@@ -12,10 +12,11 @@ class MusicClient(object):
         }
         self.params = {}
         self.method = ''
-        self.data = {"jsonrpc": "2.0", "id": 1, "method": self.method, "params": self.params}
 
     def _send_command(self):
-        response = requests.post('http://127.0.0.1:6680/mopidy/rpc', headers=self.headers, data=self.data)
+        self.data = {"jsonrpc": "2.0", "id": 1, "method": self.method, "params": self.params}
+        print(self.data)
+        response = requests.post(self.url, headers=self.headers, data=self.data)
         return response.json()
 
     def start(self):
