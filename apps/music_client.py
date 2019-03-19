@@ -16,6 +16,11 @@ class MusicClient(object):
         response = requests.post(self.url, headers=self.headers, data=json.dumps(self.data))
         return response.json()
 
+    @property
+    def is_playing(self):
+        response = self._send_command('core.playback.get_state')
+        return response['result'] == 'playing'
+
     def start(self):
         return self._send_command('core.playback.play')
 
