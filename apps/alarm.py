@@ -45,6 +45,9 @@ class AlarmService(hass.Hass):
         self.is_enabled = new == 'on'
         self.log("set_enabled: {}".format(self.is_enabled))
 
+        if not self.is_enabled:
+            self.music_client.stop()
+
     def set_alarm(self, entity, attribute, old, new, kwargs):
         self.log("set_alarm: {}".format(new))
         try:
@@ -65,10 +68,12 @@ class AlarmService(hass.Hass):
             self.current_volume += self.volume_step
 
     def start_alarm(self):
-        if not self.music_client.is_playing:
-            self.music_client.start()
+        if self.is_enabled:
+            if not self.music_client.is_playing:
+                self.music_client.start()
 
-        self.music_client.set_volume(min(self.target_volume, self.current_volume))
+            self.music_client.set_volume(min(self.target_volume, self.current_volume))
 
-        color_temp = max(1, self.target_brightness - self.current_brightness)
-        self.turn_on('light.jani_s_room', brightness=min(self.target_brightness, self.current_brightness), color_temp=color_temp)
+            color_temp = max(1, self.target_brightness - self.current_brightness)
+            self.log('max(1, {} - {})'.format(self.target_brightness, self.current_brightness)
+            self.turn_on('light.jani_s_room', brightness=min(self.target_brightness, self.current_brightness), color_temp=color_temp)
