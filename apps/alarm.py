@@ -26,7 +26,7 @@ class AlarmService(hass.Hass):
         self.target_brightness = 255
 
         max_volume_input = self.args['max_volume']
-        self.max_volume = self.get_state(max_volume_input)
+        self.max_volume = float(self.get_state(max_volume_input))
 
         self.brightness_step = ceil(self.target_brightness / float(self.alarm_minutes))
         self.volume_step = ceil(self.max_volume / float(self.alarm_minutes))
@@ -54,6 +54,9 @@ class AlarmService(hass.Hass):
 
     def set_max_volume(self, entity, attribute, old, new, kwargs):
         self.max_volume = float(new)
+
+        if self.currenct_volume > self.max_volume:
+            self.music_client.set_volume(self.max_volume)
 
     def set_alarm(self, entity, attribute, old, new, kwargs):
         self.log("set_alarm: {}".format(new))
