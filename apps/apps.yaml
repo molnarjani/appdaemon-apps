@@ -2,3 +2,4 @@ alarm:
   module: alarm
   class: AlarmService
   wakeup_time: input_text.wakeup_time
+  is_enabled: input_boolean.is_enabled

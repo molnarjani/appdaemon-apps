@@ -31,10 +31,19 @@ class AlarmService(hass.Hass):
 
         wakeup_time_input = self.args['wakeup_time']
         current_wakeup_time = self.get_state(wakeup_time_input)
+
+        is_enabled_input = self.args['is_enabled']
+        self.is_enabled = self.get_state(is_enabled_input)
+
         # Initialize alarm
         self.set_alarm(wakeup_time_input, 'value', None, current_wakeup_time, {})
 
         self.listen_state(self.set_alarm, self.args['wakeup_time'])
+        self.listen_state(self.set_enabled, self.args['is_enabled'])
+
+    def set_enabled(self, entity, attribute, old, new, kwargs):
+        self.log("set_enabled: {}".format(new))
+        self.enabled = new
 
     def set_alarm(self, entity, attribute, old, new, kwargs):
         self.log("set_alarm: {}".format(new))
