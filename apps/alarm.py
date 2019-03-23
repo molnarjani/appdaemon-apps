@@ -57,7 +57,7 @@ class AlarmService(hass.Hass):
 
         if self.current_volume > self.max_volume:
             self.log('Capping volume at: {}'.format(self.max_volume))
-            self.music_client.set_volume(self.max_volume)
+            self.music_client.set_volume(min(self.max_volume, self.current_volume))
 
     def set_alarm(self, entity, attribute, old, new, kwargs):
         self.log("set_alarm: {}".format(new))
