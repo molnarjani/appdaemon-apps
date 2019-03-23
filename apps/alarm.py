@@ -42,8 +42,8 @@ class AlarmService(hass.Hass):
         self.listen_state(self.set_enabled, self.args['is_enabled'])
 
     def set_enabled(self, entity, attribute, old, new, kwargs):
-        self.log("set_enabled: {}".format(new))
-        self.enabled = new
+        self.is_enabled = new == 'on'
+        self.log("set_enabled: {}".format(self.is_enabled))
 
     def set_alarm(self, entity, attribute, old, new, kwargs):
         self.log("set_alarm: {}".format(new))
