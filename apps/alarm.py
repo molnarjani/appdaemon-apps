@@ -55,9 +55,8 @@ class AlarmService(hass.Hass):
         self.max_volume = float(new)
         self.log('{} > {}'.format(self.current_volume, self.max_volume))
 
-        if self.current_volume > self.max_volume:
-            self.log('Capping volume at: {}'.format(self.max_volume))
-            self.music_client.set_volume(min(self.max_volume, self.current_volume))
+        self.log('Capping volume at: {}'.format(self.max_volume))
+        self.music_client.set_volume(min(self.max_volume, self.current_volume))
 
     def set_alarm(self, entity, attribute, old, new, kwargs):
         self.log("set_alarm: {}".format(new))
@@ -76,7 +75,7 @@ class AlarmService(hass.Hass):
             self.start_alarm()
             self.current_brightness += self.brightness_step
             self.current_volume += self.volume_step
-            self.log('Starting wake up: Volume - {}, Brightness: {}'.format(self.current_brightness, self.current_volume))
+            self.log('Starting wake up: Volume - {}, Brightness - {}'.format(self.current_brightness, self.current_volume))
 
     def start_alarm(self):
         if self.is_enabled:
