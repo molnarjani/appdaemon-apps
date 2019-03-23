@@ -24,10 +24,12 @@ class AlarmService(hass.Hass):
         self.current_volume = 5
         self.current_brightness = 1
         self.target_brightness = 255
-        self.target_volume = 45
+
+        max_volume_input = self.args['max_volume']
+        self.max_volume = self.get_state(max_volume_input)
 
         self.brightness_step = ceil(self.target_brightness / float(self.alarm_minutes))
-        self.volume_step = ceil(self.target_volume / float(self.alarm_minutes))
+        self.volume_step = ceil(self.max_volume / float(self.alarm_minutes))
 
         wakeup_time_input = self.args['wakeup_time']
         current_wakeup_time = self.get_state(wakeup_time_input)
@@ -35,8 +37,6 @@ class AlarmService(hass.Hass):
         is_enabled_input = self.args['is_enabled']
         self.is_enabled = self.get_state(is_enabled_input)
 
-        max_volume_input = self.args['max_volume']
-        self.max_volume = self.get_state(max_volume_input)
 
         # Initialize alarm
         self.set_alarm(wakeup_time_input, 'value', None, current_wakeup_time, {})
@@ -53,7 +53,7 @@ class AlarmService(hass.Hass):
             self.music_client.stop()
 
     def set_max_volume(self, entity, attribute, old, new, kwargs):
-        self.log(new)
+        self.max_volume = float(new)
 
     def set_alarm(self, entity, attribute, old, new, kwargs):
         self.log("set_alarm: {}".format(new))
@@ -79,7 +79,7 @@ class AlarmService(hass.Hass):
             if not self.music_client.is_playing:
                 self.music_client.start()
 
-            self.music_client.set_volume(min(self.target_volume, self.current_volume))
+            self.music_client.set_volume(min(self.max_volume, self.current_volume))
 
             color_temp = max(1, self.target_brightness - self.current_brightness)
             self.log('max(1, {} - {})'.format(self.target_brightness, self.current_brightness))
