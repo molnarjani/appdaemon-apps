@@ -75,5 +75,5 @@ class AlarmService(hass.Hass):
             self.music_client.set_volume(min(self.target_volume, self.current_volume))
 
             color_temp = max(1, self.target_brightness - self.current_brightness)
-            self.log('max(1, {} - {})'.format(self.target_brightness, self.current_brightness)
+            self.log('max(1, {} - {})'.format(self.target_brightness, self.current_brightness))
             self.turn_on('light.jani_s_room', brightness=min(self.target_brightness, self.current_brightness), color_temp=color_temp)
