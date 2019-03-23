@@ -32,4 +32,4 @@ class MusicClient(object):
         return response['result']
 
     def set_volume(self, volume):
-        return self._send_command('core.mixer.set_volume', {'volume': volume})
+        return self._send_command('core.mixer.set_volume', {'volume': int(volume)})
