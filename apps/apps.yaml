@@ -3,3 +3,4 @@ alarm:
   class: AlarmService
   wakeup_time: input_text.wakeup_time
   is_enabled: input_boolean.is_enabled
+  max_volume: input_number.max_volume
