@@ -10,9 +10,9 @@
     * Used by alarm.py to modify volume and start playing music
     
 ## TODO:
-   - [ ] Add **stop alarm** button to HA user interface
+   - [X] Add **alarm enabled** button to HA user interface
    - [ ] Fetch **alarm duration** from HA input
-   - [ ] Fetch **max volume** from HA input
+   - [X] Fetch **max volume** from HA input
    - [ ] Extract music client to a PyPI package
    - [ ] Add tests for checking that music and lights only turn on at alarm time
    - [ ] Add tests for checking that volume and lights increment smoothly to avoid waking up to full brightness or extremely loud music
