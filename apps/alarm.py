@@ -37,7 +37,6 @@ class AlarmService(hass.Hass):
         is_enabled_input = self.args['is_enabled']
         self.is_enabled = self.get_state(is_enabled_input)
 
-
         # Initialize alarm
         self.set_alarm(wakeup_time_input, 'value', None, current_wakeup_time, {})
 
@@ -55,7 +54,7 @@ class AlarmService(hass.Hass):
     def set_max_volume(self, entity, attribute, old, new, kwargs):
         self.max_volume = float(new)
 
-        if self.currenct_volume > self.max_volume:
+        if self.current_volume > self.max_volume:
             self.music_client.set_volume(self.max_volume)
 
     def set_alarm(self, entity, attribute, old, new, kwargs):
