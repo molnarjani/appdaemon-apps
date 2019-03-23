@@ -14,10 +14,13 @@ class AlarmService(hass.Hass):
     """ Starts playing music and turns lights and volume up incrementally """
 
     def initialize(self):
-        self.load_initial_states()
+
+        self.log("Started Alarm service")
         self.music_client = MusicClient('http://127.0.0.1:6680/mopidy/rpc')
+        self.listen_state(self.check_time, "sensor.time")
 
         self.alarm_minutes = 30
+
         self.current_volume = 5
         self.current_brightness = 1
         self.target_brightness = 255
@@ -26,16 +29,15 @@ class AlarmService(hass.Hass):
         self.brightness_step = ceil(self.target_brightness / float(self.alarm_minutes))
         self.volume_step = ceil(self.target_volume / float(self.alarm_minutes))
 
-    def load_initial_states(self):
+        wakeup_time_input = self.args['wakeup_time']
+        current_wakeup_time = self.get_state(wakeup_time_input)
+
         is_enabled_input = self.args['is_enabled']
         self.is_enabled = self.get_state(is_enabled_input)
 
-        wakeup_time_input = self.args['wakeup_time']
-        current_wakeup_time = self.get_state(wakeup_time_input)
         # Initialize alarm
         self.set_alarm(wakeup_time_input, 'value', None, current_wakeup_time, {})
 
-        self.listen_state(self.check_time, "sensor.time")
         self.listen_state(self.set_alarm, self.args['wakeup_time'])
         self.listen_state(self.set_enabled, self.args['is_enabled'])
 
@@ -63,11 +65,10 @@ class AlarmService(hass.Hass):
             self.current_volume += self.volume_step
 
     def start_alarm(self):
-        if self.is_enabled:
-            if not self.music_client.is_playing:
-                self.music_client.start()
+        if not self.music_client.is_playing:
+            self.music_client.start()
 
-            self.music_client.set_volume(min(self.target_volume, self.current_volume))
+        self.music_client.set_volume(min(self.target_volume, self.current_volume))
 
-            color_temp = max(1, self.target_brightness - self.current_brightness)
-            self.turn_on('light.jani_s_room', brightness=min(self.target_brightness, self.current_brightness), color_temp=color_temp)
+        color_temp = max(1, self.target_brightness - self.current_brightness)
+        self.turn_on('light.jani_s_room', brightness=min(self.target_brightness, self.current_brightness), color_temp=color_temp)
