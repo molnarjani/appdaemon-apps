@@ -16,3 +16,4 @@
    - [ ] Extract music client to a PyPI package
    - [ ] Add tests for checking that music and lights only turn on at alarm time
    - [ ] Add tests for checking that volume and lights increment smoothly to avoid waking up to full brightness or extremely loud music
+   - [ ] Add feature to autostart a playlist if alarm is on and no playlist is selected (so it plays music even if no playlist is set)
