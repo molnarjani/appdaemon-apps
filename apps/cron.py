@@ -6,7 +6,7 @@ class CronService(hass.Hass):
     """ Cron service to run scheduled tasks """
 
     def initialize(self, *args, **kwargs):
-        self.run_daily(self.fetch_savings, time(21, 54), **kwargs)
+        self.run_daily(self.fetch_savings, time(20, 00), **kwargs)
 
     def fetch_savings(self, *args, **kwargs):
         self.log('I ran')
