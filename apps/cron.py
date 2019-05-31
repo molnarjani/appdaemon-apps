@@ -9,7 +9,8 @@ class CronService(hass.Hass):
         self.run_daily(self.fetch_savings, time(20, 00), **kwargs)
 
     def fetch_savings(self, *args, **kwargs):
-        self.log('I ran')
+        self.log('Fetching savings...')
         Juice().execute()
+        self.log('Savings fetched!')
 
 
