@@ -1,6 +1,6 @@
 from datetime import datetime
 import appdaemon.plugins.hass.hassapi as hass
-from juice import Juice
+from juice.main import Juice
 
 class CronService(hass.Hass):
     """ Cron service to run scheduled tasks """
